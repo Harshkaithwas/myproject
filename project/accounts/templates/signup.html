@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}MCC-Sign_Up{% endblock title %}</title>
+
+{% block body%}
+
+<main class="mx-auto">
+
+  <!-- =======================
+  Inner intro START -->
+  <section class="mx-auto">
+    <div class="mx-auto my-lg-5">
+      <div class="row mx-auto">
+        <div class="mx-auto">
+          <div class="bg-transparent bg-opacity-5 rounded p-4 p-sm-5 mx-auto" style="width: 1000px;" >
+            <h2>Create your free account </h2>
+            <!-- Form START -->
+            <form class="mt-4 mx-auto">
+              <!-- Email -->
+              <div class="mb-3">
+                <label class="form-label" for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  placeholder="E-mail">
+                <small id="emailHelp" class="form-text">We'll never share your email with anyone else.</small>
+              </div>
+              
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Username</label>
+                <input type="username" class="form-control" id="username" aria-describedby="username">
+                
+              </div>
+              <!-- Password -->
+              <div class="mb-3">
+                <label class="form-label" for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="*********">
+              </div>
+              <!-- Password -->
+              <div class="mb-3">
+                <label class="form-label" for="exampleInputPassword2">Confirm Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="*********">
+              </div>
+              <!-- Checkbox -->
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Yes i'd also like to sign up for additional
+                  subscription</label>
+              </div>
+              <!-- Button -->
+              <div class="row align-items-center">
+                <div class="col-sm-4">
+                  <button type="submit" class="btn btn-success">Sign me up</button>
+                </div>
+                <div class="col-sm-8 text-sm-end">
+                  <span>Have an account? <a href="http://127.0.0.1:8000/accounts/sign_in/">
+                    <button type="button" class="btn btn-primary btn-sm active">Sign_In</button>
+                  </a></span>
+                </div>
+              </div>
+            </form>
+            <!-- Form END -->
+            <hr>
+            <!-- Social-media btn -->
+            <div class="text-center">
+              <p>Sign up with your social network for quick access</p>
+              <ul class="list-unstyled d-sm-flex mt-3 justify-content-center">
+                <li class="mx-2">
+                  <a href="#" class="btn bg-facebook d-inline-block"><i class="fab fa-facebook-f me-2"></i> Sign up
+                    with Facebook</a>
+                </li>
+                <li class="mx-2">
+                  <a href="#" class="btn bg-google d-inline-block"><i class="fab fa-google me-2"></i> Sign up with
+                    google</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- =======================
+  Inner intro END -->
+
+</main>
+
+
+<!-- 
+<div class="form mx-5">
+  <form style="border: black; border-width:1px; border-style:solid;background-color: transparent; align-items: center;">
+    <div class="mb-3 my-5  mx-5">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="email" aria-describedby="email">
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3 my-5  mx-5">
+      <label for="exampleInputEmail1" class="form-label">Username</label>
+      <input type="username" class="form-control" id="username" aria-describedby="username">
+      
+    </div>
+
+
+    <div class="mb-3 mx-5">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div class="mb-3 mx-5">
+      <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div class="mb-3 form-check mx-5">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary my-5 mx-5">Submit</button>
+  </form>
+</div> -->
+
+{% endblock body%}
