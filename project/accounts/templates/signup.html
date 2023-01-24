@@ -6,6 +6,50 @@
 
 {% block body%}
 
+
+
+<script>
+    url = "http://127.0.0.1:8000/accounts/sign_in/"
+    function makeApiCall(url) {
+      const email = document.getElementById("email-input").value;
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password-input").value;
+      const password2 = document.getElementById("password2-input").value;
+
+
+      document.getElementById("submit-button").innerHTML = "Loading...";
+      const options = {
+        method: 'POST',
+        body: JSON.stringify({
+          email: email,
+          username: username,
+          password: password,
+          password2: password2,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      callAPI(url, options)
+        .then(data => {
+          console.log(Response);
+          document.getElementById("submit-button").innerHTML = "Success!";
+        })
+        .catch(error => {
+          console.error(error);
+          document.getElementById("submit-button").innerHTML = "Error: " + error;
+        });
+  }
+  
+  
+  
+  
+  
+  
+  </script>
+
+
+
 <main class="mx-auto">
 
   <!-- =======================
@@ -17,49 +61,40 @@
           <div class="bg-transparent bg-opacity-5 rounded p-4 p-sm-5 mx-auto" style="width: 1000px;" >
             <h2>Create your free account </h2>
             <!-- Form START -->
-            <form class="mt-4 mx-auto">
-              <!-- Email -->
+            <form class="mt-4 mx-auto" hx-post="http://127.0.0.1:8000/accounts/sign_up/" hx-swap="none" hx-target="#message">
+
               <div class="mb-3">
-                <label class="form-label" for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                  placeholder="E-mail">
+                <label class="form-label" for="email">Email address</label>
+                <input class="form-control" type="email" id="email" name="email" placeholder="E-mail">
                 <small id="emailHelp" class="form-text">We'll never share your email with anyone else.</small>
+              </div>
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="username" class="form-control" id="username" name="username">
               </div>
               
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Username</label>
-                <input type="username" class="form-control" id="username" aria-describedby="username">
-                
+                <label class="form-label" for="password">Password</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="*********">
               </div>
-              <!-- Password -->
+
               <div class="mb-3">
-                <label class="form-label" for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="*********">
+                <label class="form-label" for="password2"> Confirm Password</label>
+                <input type="password" class="form-control" name="password2" id="password2" placeholder="*********">
               </div>
-              <!-- Password -->
-              <div class="mb-3">
-                <label class="form-label" for="exampleInputPassword2">Confirm Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="*********">
-              </div>
-              <!-- Checkbox -->
-              <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Yes i'd also like to sign up for additional
-                  subscription</label>
-              </div>
-              <!-- Button -->
+              
               <div class="row align-items-center">
                 <div class="col-sm-4">
-                  <button type="submit" class="btn btn-success">Sign me up</button>
+                  <button type="submit" class="btn btn-success" id="submit" >Sign me up</button>
                 </div>
                 <div class="col-sm-8 text-sm-end">
-                  <span>Have an account? <a href="http://127.0.0.1:8000/accounts/sign_in/">
+                  <span>Have an account? <a href="/accounts/signin/">
                     <button type="button" class="btn btn-primary btn-sm active">Sign_In</button>
                   </a></span>
                 </div>
               </div>
             </form>
-            <!-- Form END -->
+            <div id="message"></div>
             <hr>
             <!-- Social-media btn -->
             <div class="text-center">

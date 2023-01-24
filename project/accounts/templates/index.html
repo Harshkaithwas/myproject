@@ -3,25 +3,47 @@
 
 {% block body %}
 <style>
-    .landing_pic {
-        position: absolute;
-        margin-left: 60px;
-        margin-top: 200px;
-        
-    }
 
 </style>
-<div class="mx-auto" style="display: block;" >
-    <a href="https://www.linkpicture.com/q/graphic-designer-creating-his-artwork-using-computer_80802-1077-removebg-preview.png">
-        <div class="landing_pic" >
-            <img src="https://www.linkpicture.com/q/graphic-designer-creating-his-artwork-using-computer_80802-1077-removebg-preview.png" alt="landing_pic">
+
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="https://wallpaperaccess.com/full/6169753.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item ">
+            <img src="https://www.studyplus.org/images/news/Counsellor-in.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item ">
+            <img src="https://cache.pressmailing.net/thumbnail/story_hires/682db2b9-87f5-4bc1-9a42-731e358c23c9/Phil%20Poosch%20priority%20export-4997.jpg.jpg"
+                class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+</div>
+
+<div class="mx-auto" style="display: block;">
+    <a
+        href="https://www.linkpicture.com/q/graphic-designer-creating-his-artwork-using-computer_80802-1077-removebg-preview.png">
+        <div class="landing_pic">
+            <img src="https://www.studyplus.org/images/news/Counsellor-in.jpg" alt="landing_pic">
         </div>
     </a>
 </div>
 <div class="container">
     <div class="container-1">
-      <section class="instruction"><p>Welcome to Mamta Career Consultency, A place where you can plan your futuer and find a purpose of your education. With a good plan you can make your dreams come ture.</p></section>
+        <section class="instruction">
+            <p>Welcome to Mamta Career Consultency, A place where you can plan your futuer and find a purpose of your
+                education. With a good plan you can make your dreams come ture.</p>
+        </section>
     </div>
-  </div>
+</div>
 
 {% endblock body %}

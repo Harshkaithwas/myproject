@@ -4,42 +4,39 @@
 
 
 {% block body %}
+
 <div class="mx-auto">
   <section>
     <div class="mx-auto my-lg-5">
       <div class="row mx-auto">
         <div class="mx-auto">
-          <div class="bg-transparent bg-opacity-5 rounded p-4 p-sm-5 mx-auto" style="width: 1000px;" >
+          <div class="bg-transparent bg-opacity-5 rounded p-4 p-sm-5 mx-auto" style="width: 1000px; will-change: auto;">
             <h2>Log in to your account</h2>
             <!-- Form START -->
-            <form class="mt-4">
-              <!-- Email -->
+
+            <form class="mt-4" hx-post="http://127.0.0.1:8000/accounts/sign_in/" hx-swap="none" hx-target="#signin-form">
               <div class="mb-3">
-                <label class="form-label" for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="E-mail">
+                <label class="form-label" for="email">Email address</label>
+                <input class="form-control" type="email" id="email" name="email" placeholder="E-mail">
               </div>
-              <!-- Password -->
+              <br>
               <div class="mb-3">
-                <label class="form-label" for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="*********">
+                <label class="form-label" for="password">Password:</label>
+                <input class="form-control" type="password" id="password" name="password" placeholder="*********">
               </div>
-              <!-- Checkbox -->
-              <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">keep me signed in</label>
-              </div>
-              <!-- Button -->
+              <br>
               <div class="row align-items-center">
                 <div class="col-sm-4">
-                  <button type="submit" class="btn btn-success">Sign me in</button>
+                  <button  class="btn btn-success" type="submit" id="submit">Sign In</button>
                 </div>
                 <div class="col-sm-8 text-sm-end">
-                  <span>Don't have an account? <a href="http://127.0.0.1:8000/accounts/sign_up/">
-                    <button type="button" class="btn btn-secondary btn-sm active">Sign_Up</button>
-                  </a></span>
+                  <span>Don't have an account? <a href="/accounts/sign_up/">
+                      <button type="button" class="btn btn-secondary btn-sm active">Sign_Up</button>
+                    </a></span>
                 </div>
               </div>
             </form>
+            <div id="signin-form"></div>
             <!-- Form END -->
             <hr>
             <!-- Social-media btn -->
@@ -60,5 +57,20 @@
     </div>
   </section>
 </div>
+
+<script>
+  function handleSigninResponse(event) {
+    console.log(event.detail.xhr.response);
+    let response = JSON.parse(event.detail.xhr.response);
+    if (response.status === 'success') {
+      localStorage.setItem('token', response.token);
+    }
+  }
+
+  function printResponse(response) {
+  console.log(response);
+}
+</script>
+
 
 {% endblock body %}

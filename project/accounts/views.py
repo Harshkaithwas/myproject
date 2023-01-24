@@ -44,12 +44,14 @@ class RegistrationView(APIView):
                 'access': str(refresh.access_token),
 
             }
-            return Response(response, status=status.HTTP_201_CREATED)
+            print(response)
+            return Response(response,status=status.HTTP_201_CREATED)
     
         else:
             data = {'error': serializer.errors, 'status': status.HTTP_400_BAD_REQUEST}
+            print(data)
             
-        return Response(data, render(request, 'signup.html'))
+        return Response(data)
 
 
 class SingInView(APIView):
@@ -61,34 +63,37 @@ class SingInView(APIView):
         email = request.data.get("email")
         username = request.data.get('username')
         password = request.data.get("password")
-        if (email and password) or (username and password):
-            user = authenticate(email=email, password=password)
-            refresh = RefreshToken.for_user(Account)
-            if user:
-                response = {
-                'success' : 'True',
-                'status code' : status.HTTP_200_OK,
-                'message': 'User logged in  successfully',
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-                }
-                status_code = status.HTTP_200_OK
-
-                return Response(response, render(request, 'signup.html'),status=status_code,)
-            else:
-                response = {
-                    'success' : 'False',
-                    'status code' : status.HTTP_400_BAD_REQUEST,
-                    'message': 'User logged in  Failed',
+        account = Account.objects.filter(email=email)
+        if account.exists():
+            if (email and password) or (username and password):
+                user = authenticate(email=email , password=password)
+                refresh = RefreshToken.for_user(Account)
+                if user:
+                    response = {
+                    'success' : 'True',
+                    'status code' : status.HTTP_200_OK,
+                    'message': 'User logged in  successfully',
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
                     }
-                return Response(response, render(request, 'signin.html'))
+                    status_code = status.HTTP_200_OK
+                    return Response(response,status=status_code,)
+                else:
+                    response = {
+                        'success' : 'False',
+                        'status code' : status.HTTP_400_BAD_REQUEST,
+                        'message': 'Email or password is unvalid, Please correct it and try again',
+                        }
+                    status_code = status.HTTP_400_BAD_REQUEST
+                    return Response(response,  status_code)
         else:
             response = {
                     'success' : 'False',
                     'status code' : status.HTTP_400_BAD_REQUEST,
-                    'message': 'Please try with valid details',
+                    'message': "This account dosen't exist, please go to signup or enter a valid details",
                     }
-            return Response(response, render(request, 'signin.html'))
+            status_code = status.HTTP_400_BAD_REQUEST
+            return Response(response, status_code)
             
                 
 class UserDeatilsView(APIView):
@@ -96,12 +101,10 @@ class UserDeatilsView(APIView):
 
     model = serializer_class.Meta.model
 
-    
     def get(self, request, pk):
         try:
             user_obj = Account.objects.get(id=pk)
             serializer = UserDetails(user_obj, context={'request': request}, many=False)
-            
             return Response(serializer.data)
         except:
             return Response({
