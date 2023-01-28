@@ -14,7 +14,7 @@
             <h2>Log in to your account</h2>
             <!-- Form START -->
 
-            <form class="mt-4" hx-post="http://127.0.0.1:8000/accounts/sign_in/" hx-swap="none" hx-target="#signin-form">
+            <form class="mt-4" hx-post="http://127.0.0.1:8000/sign_in/" hx-swap="none" hx-target="#signin-form">
               <div class="mb-3">
                 <label class="form-label" for="email">Email address</label>
                 <input class="form-control" type="email" id="email" name="email" placeholder="E-mail">
@@ -30,7 +30,7 @@
                   <button  class="btn btn-success" type="submit" id="submit">Sign In</button>
                 </div>
                 <div class="col-sm-8 text-sm-end">
-                  <span>Don't have an account? <a href="/accounts/sign_up/">
+                  <span>Don't have an account? <a href="/sign_up/">
                       <button type="button" class="btn btn-secondary btn-sm active">Sign_Up</button>
                     </a></span>
                 </div>

@@ -14,7 +14,7 @@ from django.apps import apps
 from django.utils import timezone
 #  thrid party module
 from django_countries.fields import CountryField
-from rest_framework_simplejwt.tokens import RefreshToken 
+from rest_framework_simplejwt.tokens import RefreshToken , OutstandingToken
 
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google', 'email': 'email'}
 
@@ -74,7 +74,7 @@ class AccountProfileModel(models.Model):
     class Meta:
         abstract = True
 
- 
+
 class Account(AbstractUser, AccountProfileModel):
     '''Account model'''
 
@@ -129,6 +129,7 @@ class Account(AbstractUser, AccountProfileModel):
         return {
             'token': token
         }
+
     
 class AccountAddress(models.Model):
     #Address fields are here
@@ -139,10 +140,14 @@ class AccountAddress(models.Model):
     country = CountryField(default='India')
     zip = models.CharField(max_length=100, blank=True)
 
+
+
  
  
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         RefreshToken.for_user(Account)
+        
+
 

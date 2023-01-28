@@ -10,10 +10,10 @@ from rest_framework_simplejwt.views import TokenVerifyView
 
 urlpatterns = [
     path('', views.home,),
-    path('signup/', views.signup, name='signup'),
-    path('signin/', views.signin, name='signin'),
+
     path('sign_up/', views.RegistrationView.as_view(), name='registration'),
     path('sign_in/', views.SingInView.as_view(), name='login'),
+    path('sign_out/', views.SignOutView.as_view(), name='logout'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),

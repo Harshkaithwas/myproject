@@ -6,6 +6,7 @@ from rest_framework import serializers
 from accounts.models import Account, AccountProfileModel
 
 
+
 class RegistrationSerializer(serializers.ModelSerializer):
     """ serializer used for registration """
 
@@ -34,7 +35,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
             return account
         else:
             raise serializers.ValidationError({'password', 'Passwords must match'})
-        
+
+
+
+
+
 
 class UserDetails(serializers.ModelSerializer):
     class Meta:
