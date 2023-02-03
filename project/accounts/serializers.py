@@ -37,12 +37,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'password', 'Passwords must match'})
 
 
-
-
-
-
 class UserDetails(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = '__all__'
-

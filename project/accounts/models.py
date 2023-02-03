@@ -14,7 +14,8 @@ from django.apps import apps
 from django.utils import timezone
 #  thrid party module
 from django_countries.fields import CountryField
-from rest_framework_simplejwt.tokens import RefreshToken , OutstandingToken
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google', 'email': 'email'}
 
@@ -47,6 +48,7 @@ class MyAccountManager(BaseUserManager):
             password=password,
             username=username,
         )
+        
         user.is_admin = True
         user.is_staff = True
         user.is_superuser = True
@@ -59,7 +61,7 @@ class AccountProfileModel(models.Model):
     # user = models.OneToOneField(to=Account, on_delete=models.CASCADE, related_name='profile',)
     first_name = models.CharField(max_length=40, blank=True)
     last_name = models.CharField(max_length=40,  blank=True)
-    gender = models.CharField(max_length=6, choices=(('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')), blank=True, null=True)
+    gender = models.CharField(max_length=6, choices=(('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')),null=True)
     dob = models.DateField(auto_now_add=True)
     
     profile_pic = models.ImageField(null=True, blank=True)
@@ -67,17 +69,16 @@ class AccountProfileModel(models.Model):
     banner_pic = models.ImageField(null=True, blank=True)
     phone = models.CharField(max_length=13, blank=True, null=True)
     country_code = models.CharField(max_length=10, default='India')
-    created_at = models.DateTimeField(auto_now_add=True)
+    # created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(null=True, blank=True)
 
     
     class Meta:
         abstract = True
 
-
 class Account(AbstractUser, AccountProfileModel):
     '''Account model'''
-
+    # OutstandingToken = models.create(OutstandingToken, related_name='OUTtoken', on_delete=models.CASCADE, default=None)
     userid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, blank=False)
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     otp = models.CharField(max_length=6, validators=[MinLengthValidator(6)], default=None, null=True, blank=True)
@@ -98,7 +99,7 @@ class Account(AbstractUser, AccountProfileModel):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username',]
-
+    
     objects = MyAccountManager()
 
     def __str__(self):
@@ -119,16 +120,14 @@ class Account(AbstractUser, AccountProfileModel):
         return True
 
     def token(self):
-        token =RefreshToken.for_user(Account)
+        refresh =RefreshToken.for_user(Account)
         return {
-            'token': token
+            'refresh_token': str(refresh),
+            'access_token': str(refresh.access_token)
         }
-        
-    def edit_url(self):
-        token = RefreshToken.for_user(Account)
-        return {
-            'token': token
-        }
+    
+    
+
 
     
 class AccountAddress(models.Model):
@@ -140,14 +139,12 @@ class AccountAddress(models.Model):
     country = CountryField(default='India')
     zip = models.CharField(max_length=100, blank=True)
 
-
-
  
- 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        RefreshToken.for_user(Account)
-        
+
+# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+# def create_auth_token(sender, instance=None, created=False, **kwargs):
+#     if created:
+#         RefreshToken.for_user(Account)
+
 
 

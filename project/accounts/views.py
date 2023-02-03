@@ -7,10 +7,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 from datetime import datetime, timedelta
+
 def home(request):
     return render(request, 'index.html')
 
@@ -23,29 +23,32 @@ class RegistrationView(APIView):
         return render(request, 'signup.html')
     
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs,):
 
         serializer = RegistrationSerializer(data=request.data)
         
         if serializer.is_valid():
             serializer.save()
-            refresh = RefreshToken.for_user(Account)
-            
+            email = request.data.get("email")  
+            password = request.data.get("password")
+            user = authenticate(email=email , password=password)
+            if user is not None:
+                refresh = RefreshToken.for_user(user)
+                response={
+                    'message':'Your Account Has Been Registerd Sucessfully',
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
 
-            response={
-                'message':'Your Account Has Been Registerd Sucessfully',
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-
-            }
-            print(response)
-            return Response(response,status=status.HTTP_201_CREATED)
-    
+                }
+                return Response(response,status=status.HTTP_201_CREATED)
+            else:
+                data = {'error': serializer.errors, 'status': status.HTTP_400_BAD_REQUEST}
+                return Response(data, status=status.HTTP_400_BAD_REQUEST)
+          
         else:
             data = {'error': serializer.errors, 'status': status.HTTP_400_BAD_REQUEST}
-            print(data)
-            
-        return Response(data)
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class SingInView(APIView):
@@ -66,10 +69,7 @@ class SingInView(APIView):
                 
                 if user is not None:
                     refresh = RefreshToken.for_user(user)
-                    OutstandingToken=refresh
 
-
-                    # refresh = RefreshToken.for_user(Account)
                     
                     response = {
                     'success' : 'True',
@@ -99,11 +99,12 @@ class SingInView(APIView):
         
 
 class SignOutView(APIView):
-    authentication_class = JSONWebTokenAuthentication
+
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         try:
+            
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
             token.blacklist()
